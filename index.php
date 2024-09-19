@@ -24,7 +24,7 @@ Store!</h1>
             <!-- PayPal Button -->
             <div id="paypal-button-container"></div>
 
-            <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+            <script src="https://www.paypal.com/sdk/js?client-id=ASUF53rJxIhe4IP2iSrKkm2VHQeRhOicDREIw37Plt6NE0cIa2GGr642Rw59Ejn3LCrqPaXvhCECFArX&currency=USD"></script>
 
             <script>
                 paypal.Buttons({
