@@ -16,10 +16,86 @@
         .winner {
             animation: winnerAnimation 1s ease-in-out infinite;
         }
+   
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 150px);
+            grid-gap: 20px;
+        }
+        .card {
+            width: 150px;
+            height: 150px;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+        .card.revealed {
+            background-color: #f44336;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
     </style>
 </head>
-<body class="bg-gray-100">
 
+ <div class="container" id="card-container"></div>
+    <div class="message" id="message"></div>
+
+    <script>
+        const discountCodes = [
+            '10%', '15%', '20%', '25%', '30%',
+            '35%', '40%', '45%', '50%'
+        ];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        const shuffledDiscounts = shuffle(discountCodes);
+        const container = document.getElementById('card-container');
+        const message = document.getElementById('message');
+
+        // Create 9 cards
+        for (let i = 0; i < 9; i++) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.textContent = 'Card ' + (i + 1);
+            card.addEventListener('click', () => revealDiscount(i, card));
+            container.appendChild(card);
+        }
+
+        // Reveal discount on card click
+        function revealDiscount(index, cardElement) {
+            if (cardElement.classList.contains('revealed')) {
+                return;
+            }
+            const discount = shuffledDiscounts[index];
+            cardElement.classList.add('revealed');
+            cardElement.textContent = discount + ' OFF';
+            message.textContent = 'You have revealed a ' + discount + ' discount!';
+        }
+    </script>
     <!-- Banner Section -->
     <div class="bg-blue-500 p-10 text-center">
         <h1 class="text-white text-4xl font-bold">🎁 Your $99 Mystery Box Awaits – Valued at $100,000! 🚀</h1>
