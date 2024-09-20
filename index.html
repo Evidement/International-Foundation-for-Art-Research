@@ -68,13 +68,6 @@
     </div>
 </div>
 
-<!-- Step 2: You Won a Discount -->
-<div id="step2" class="step-container flex flex-col justify-center items-center h-screen">
-    <h1 class="text-3xl mb-4">Step 2: You Won a Discount!</h1>
-    <p class="text-xl" id="won-discount-message"></p>
-    <button id="proceed-to-pay" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Proceed to Pay</button>
-</div>
-
 <!-- Step 3: PayPal Checkout -->
 <div id="step3" class="step-container flex flex-col justify-center items-center h-screen">
     <h1 class="text-3xl mb-4">Step 3: Complete Your Payment</h1>
@@ -95,7 +88,6 @@
     const discountCodes = ['10%', '15%', '20%', '25%', '30%', '35%', '40%', '45%', '50%'];
     const cards = document.querySelectorAll('.card');
     const shuffledDiscounts = shuffle(discountCodes);
-    const discountMessage = document.getElementById('won-discount-message');
 
     // Shuffle discount codes
     function shuffle(array) {
@@ -122,16 +114,10 @@
                 card.innerHTML = `${shuffledDiscounts[index]} OFF`; // Reveal the discount
                 const discount = shuffledDiscounts[index];
                 discountAmount = 99.99 * (parseInt(discount) / 100); // Calculate discount
-                discountMessage.textContent = `Congratulations! You've won ${discount} OFF your purchase!`;
-                showStep('step2'); // Proceed to Step 2
+                showStep('step3'); // Automatically proceed to PayPal payment
+                loadPayPalButton(); // Load PayPal button after revealing discount
             }
         });
-    });
-
-    // Proceed to Pay button
-    document.getElementById('proceed-to-pay').addEventListener('click', () => {
-        showStep('step3'); // Proceed to PayPal payment (Step 3)
-        loadPayPalButton();
     });
 
     // Load PayPal Button
