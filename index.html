@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$99 Mystery Box Awaits</title>
+    <title>Mystery Box - Win Your Discount!</title>
     <!-- Include Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* CSS for winner animation */
+        /* CSS for the card and winner animation */
         @keyframes winnerAnimation {
             0% { transform: scale(1); }
             50% { transform: scale(1.3); }
@@ -16,191 +16,149 @@
         .winner {
             animation: winnerAnimation 1s ease-in-out infinite;
         }
-   
-        body {
-            font-family: Arial, sans-serif;
+
+        .card {
+            width: 150px;
+            height: 150px;
             background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            display: grid;
-            grid-template-columns: repeat(3, 150px);
-            grid-gap: 20px;
-        }
-        .card {
-            width: 150px;
-            height: 150px;
-            background-color: #4CAF50;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
             cursor: pointer;
             border-radius: 10px;
             transition: background-color 0.3s;
+            overflow: hidden;
+        }
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .card.revealed {
             background-color: #f44336;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .message {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #333;
+        .step-container {
+            display: none;
+        }
+        .step-container.active {
+            display: block;
         }
     </style>
 </head>
+<body class="bg-gray-100">
 
-<body>
-
-    <!-- Discount Card Game Section -->
-    <div class="container" id="card-container"></div>
-    <div class="message" id="message">Click on a card to reveal your discount.</div>
-
-    <!-- Banner Section -->
-    <div class="bg-blue-500 p-10 text-center">
-        <h1 class="text-white text-4xl font-bold">🎁 Your $99 Mystery Box Awaits – Valued at $100,000! 🚀</h1>
-        <p class="text-white mt-2">Make a secure payment through PayPal Checkout</p>
+<!-- Step 1: Choose a Card -->
+<div id="step1" class="step-container active flex flex-col justify-center items-center h-screen">
+    <h1 class="text-3xl mb-4">Step 1: Choose a Mystery Box to Reveal Your Discount</h1>
+    <div class="container grid grid-cols-3 gap-4">
+        <div class="card" id="card1"><img src="winner.png" alt="Mystery Box"></div>
+        <div class="card" id="card2"><img src="winner.png" alt="Mystery Box"></div>
+        <div class="card" id="card3"><img src="winner.png" alt="Mystery Box"></div>
+        <div class="card" id="card4"><img src="winner.png" alt="Mystery Box"></div>
+        <div class="card" id="card5"><img src="winner.png" alt="Mystery Box"></div>
+        <div class="card" id="card6"><img src="winner.png" alt="Mystery Box"></div>
+        <div class="card" id="card7"><img src="winner.png" alt="Mystery Box"></div>
+        <div class="card" id="card8"><img src="winner.png" alt="Mystery Box"></div>
+        <div class="card" id="card9"><img src="winner.png" alt="Mystery Box"></div>
     </div>
+</div>
 
-    <!-- PayPal Checkout Section -->
-    <div class="flex justify-center items-center h-screen">
-        <div class="bg-white p-10 rounded-lg shadow-md text-center">
-            <h2 class="text-2xl font-bold mb-5">Complete Your Payment</h2>
+<!-- Step 2: You Won a Discount -->
+<div id="step2" class="step-container flex flex-col justify-center items-center h-screen">
+    <h1 class="text-3xl mb-4">Step 2: You Won a Discount!</h1>
+    <p class="text-xl" id="won-discount-message"></p>
+    <button id="proceed-to-pay" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Proceed to Pay</button>
+</div>
 
-            <!-- Winner Notification Section -->
-            <div id="random-purchase" class="hidden bg-green-200 text-green-800 p-3 mb-5 rounded flex items-center justify-center space-x-4">
-                <img id="winner-img" src="winner.png" alt="Winner" class="hidden w-16 h-16"/>
-                <span id="winner-message"></span>
-            </div>
+<!-- Step 3: PayPal Checkout -->
+<div id="step3" class="step-container flex flex-col justify-center items-center h-screen">
+    <h1 class="text-3xl mb-4">Step 3: Complete Your Payment</h1>
+    <div id="paypal-button-container"></div>
+</div>
 
-            <!-- PayPal Button -->
-            <div id="paypal-button-container"></div>
+<!-- Step 4: Thank You Message -->
+<div id="step4" class="step-container flex flex-col justify-center items-center h-screen">
+    <h1 class="text-3xl mb-4">Step 4: Thank You!</h1>
+    <p class="text-xl">Your payment has been successfully processed. Enjoy your mystery box!</p>
+</div>
 
-            <script src="https://www.paypal.com/sdk/js?client-id=ASUF53rJxIhe4IP2iSrKkm2VHQeRhOicDREIw37Plt6NE0cIa2GGr642Rw59Ejn3LCrqPaXvhCECFArX&currency=USD"></script>
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=ASUF53rJxIhe4IP2iSrKkm2VHQeRhOicDREIw37Plt6NE0cIa2GGr642Rw59Ejn3LCrqPaXvhCECFArX&currency=USD"></script>
 
-            <script>
-                let discountAmount = 0;
+<script>
+    let discountAmount = 0;
+    const discountCodes = ['10%', '15%', '20%', '25%', '30%', '35%', '40%', '45%', '50%'];
+    const cards = document.querySelectorAll('.card');
+    const shuffledDiscounts = shuffle(discountCodes);
+    const discountMessage = document.getElementById('won-discount-message');
 
-                paypal.Buttons({
-                    createOrder: function(data, actions) {
-                        let price = 99.99 - discountAmount; // Apply discount to $99.99 price
-                        return actions.order.create({
-                            purchase_units: [{
-                                amount: {
-                                    value: price.toFixed(2) // Set discounted price
-                                }
-                            }]
-                        });
-                    },
-                    onApprove: function(data, actions) {
-                        return actions.order.capture().then(function(details) {
-                            alert('Transaction completed by ' + details.payer.name.given_name);
-                        });
-                    },
-                    onError: function(err) {
-                        console.error('PayPal Checkout Error:', err);
-                    }
-                }).render('#paypal-button-container');
-            </script>
+    // Shuffle discount codes
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
 
-            <!-- JavaScript for Random Purchase Notification with Animation and Sound -->
-            <script>
-                const randomPurchases = [
-                    'John from New York just bought a Mystery Box!',
-                    'Sarah from California just purchased a $99 Special!',
-                    'Adam from Oregon grabbed a Mystery Box!',
-                    'Noah from New Jersey purchased the $99 deal!',
-                    'Alex from Texas grabbed a Mystery Box!',
-                    'Emma from Florida purchased the $99 deal!',
-                    'Wissal from California WINS the 99% DISCOUNT!',
-                    'Camille from LA WINS the 99% DISCOUNT!',
-                    'Liam from Ohio just checked out with PayPal!'
-                ];
+    // Step navigation helper function
+    function showStep(step) {
+        document.querySelectorAll('.step-container').forEach(stepDiv => {
+            stepDiv.classList.remove('active');
+        });
+        document.getElementById(step).classList.add('active');
+    }
 
-                const winnerSound = new Audio('winner-sound.mp3'); // Link to your sound file
-
-                function showRandomPurchase() {
-                    const purchaseDiv = document.getElementById('random-purchase');
-                    const randomMessage = randomPurchases[Math.floor(Math.random() * randomPurchases.length)];
-                    const winnerImg = document.getElementById('winner-img');
-                    const winnerMessage = document.getElementById('winner-message');
-
-                    winnerMessage.textContent = randomMessage;
-                    winnerImg.classList.remove('hidden');
-                    purchaseDiv.classList.remove('hidden', 'opacity-0');
-                    purchaseDiv.classList.add('winner'); // Add animation class
-
-                    // Play winner sound
-                    winnerSound.play();
-
-                    setTimeout(() => {
-                        purchaseDiv.classList.add('opacity-0');
-                        winnerImg.classList.add('hidden');
-                        purchaseDiv.classList.remove('winner');
-                    }, 5000);  // Show the notification for 5 seconds
-                }
-
-                function triggerRandomPurchase() {
-                    const randomInterval = Math.floor(Math.random() * (35000 - 15000 + 1)) + 15000; // Random interval between 15-35 seconds
-                    setTimeout(() => {
-                        showRandomPurchase();
-                        triggerRandomPurchase(); // Re-trigger the function for the next interval
-                    }, randomInterval);
-                }
-
-                // Start the random purchase notifications after the page loads
-                window.onload = triggerRandomPurchase;
-            </script>
-
-        </div>
-    </div>
-
-    <script>
-        const discountCodes = [
-            '10%', '15%', '20%', '25%', '30%',
-            '35%', '40%', '45%', '50%'
-        ];
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+    // Event listener for card clicks
+    cards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+            if (!card.classList.contains('revealed')) {
+                card.classList.add('revealed');
+                card.innerHTML = `${shuffledDiscounts[index]} OFF`; // Reveal the discount
+                const discount = shuffledDiscounts[index];
+                discountAmount = 99.99 * (parseInt(discount) / 100); // Calculate discount
+                discountMessage.textContent = `Congratulations! You've won ${discount} OFF your purchase!`;
+                showStep('step2'); // Proceed to Step 2
             }
-            return array;
-        }
+        });
+    });
 
-        const shuffledDiscounts = shuffle(discountCodes);
-        const container = document.getElementById('card-container');
-        const message = document.getElementById('message');
+    // Proceed to Pay button
+    document.getElementById('proceed-to-pay').addEventListener('click', () => {
+        showStep('step3'); // Proceed to PayPal payment (Step 3)
+        loadPayPalButton();
+    });
 
-        // Create 9 cards
-        for (let i = 0; i < 9; i++) {
-            const card = document.createElement('div');
-            card.classList.add('card');
-            card.textContent = 'Card ' + (i + 1);
-            card.addEventListener('click', () => revealDiscount(i, card));
-            container.appendChild(card);
-        }
-
-        // Reveal discount on card click
-        function revealDiscount(index, cardElement) {
-            if (cardElement.classList.contains('revealed')) {
-                return;
+    // Load PayPal Button
+    function loadPayPalButton() {
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                const finalPrice = (99.99 - discountAmount).toFixed(2); // Apply discount to $99.99 price
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: finalPrice
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    showStep('step4'); // Move to the "Thank You" Step
+                });
+            },
+            onError: function(err) {
+                console.error('PayPal Checkout Error:', err);
             }
-            const discount = shuffledDiscounts[index];
-            cardElement.classList.add('revealed');
-            cardElement.textContent = discount + ' OFF';
-            message.textContent = 'You have revealed a ' + discount + ' discount!';
-
-            // Parse the discount percentage and apply it
-            discountAmount = 99.99 * (parseInt(discount) / 100);
-        }
-    </script>
+        }).render('#paypal-button-container');
+    }
+</script>
 
 </body>
 </html>
