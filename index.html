@@ -42,6 +42,10 @@
             justify-content: center;
             align-items: center;
         }
+        .card.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
         .step-container {
             display: none;
         }
@@ -88,6 +92,7 @@
     const discountCodes = ['10%', '15%', '20%', '25%', '30%', '35%', '40%', '45%', '50%'];
     const cards = document.querySelectorAll('.card');
     const shuffledDiscounts = shuffle(discountCodes);
+    let cardClicked = false;  // To prevent multiple card selections
 
     // Shuffle discount codes
     function shuffle(array) {
@@ -96,6 +101,13 @@
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
+    }
+
+    // Disable all cards after one selection
+    function disableAllCards() {
+        cards.forEach(card => {
+            card.classList.add('disabled');  // Add a disabled class
+        });
     }
 
     // Step navigation helper function
@@ -109,12 +121,15 @@
     // Event listener for card clicks
     cards.forEach((card, index) => {
         card.addEventListener('click', () => {
-            if (!card.classList.contains('revealed')) {
+            if (!cardClicked) {
+                cardClicked = true;  // Mark card as clicked
                 card.classList.add('revealed');
                 card.innerHTML = `${shuffledDiscounts[index]} OFF`; // Reveal the discount
                 const discount = shuffledDiscounts[index];
                 discountAmount = 99.99 * (parseInt(discount) / 100); // Calculate discount
-                showStep('step3'); // Automatically proceed to PayPal payment
+
+                disableAllCards();  // Disable all other cards
+                showStep('step3');  // Automatically proceed to PayPal payment
                 loadPayPalButton(); // Load PayPal button after revealing discount
             }
         });
