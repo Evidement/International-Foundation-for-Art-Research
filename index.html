@@ -55,8 +55,110 @@
     </style>
 </head>
 
- <div class="container" id="card-container"></div>
-    <div class="message" id="message"></div>
+<body>
+
+    <!-- Discount Card Game Section -->
+    <div class="container" id="card-container"></div>
+    <div class="message" id="message">Click on a card to reveal your discount.</div>
+
+    <!-- Banner Section -->
+    <div class="bg-blue-500 p-10 text-center">
+        <h1 class="text-white text-4xl font-bold">🎁 Your $99 Mystery Box Awaits – Valued at $100,000! 🚀</h1>
+        <p class="text-white mt-2">Make a secure payment through PayPal Checkout</p>
+    </div>
+
+    <!-- PayPal Checkout Section -->
+    <div class="flex justify-center items-center h-screen">
+        <div class="bg-white p-10 rounded-lg shadow-md text-center">
+            <h2 class="text-2xl font-bold mb-5">Complete Your Payment</h2>
+
+            <!-- Winner Notification Section -->
+            <div id="random-purchase" class="hidden bg-green-200 text-green-800 p-3 mb-5 rounded flex items-center justify-center space-x-4">
+                <img id="winner-img" src="winner.png" alt="Winner" class="hidden w-16 h-16"/>
+                <span id="winner-message"></span>
+            </div>
+
+            <!-- PayPal Button -->
+            <div id="paypal-button-container"></div>
+
+            <script src="https://www.paypal.com/sdk/js?client-id=ASUF53rJxIhe4IP2iSrKkm2VHQeRhOicDREIw37Plt6NE0cIa2GGr642Rw59Ejn3LCrqPaXvhCECFArX&currency=USD"></script>
+
+            <script>
+                let discountAmount = 0;
+
+                paypal.Buttons({
+                    createOrder: function(data, actions) {
+                        let price = 99.99 - discountAmount; // Apply discount to $99.99 price
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: price.toFixed(2) // Set discounted price
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            alert('Transaction completed by ' + details.payer.name.given_name);
+                        });
+                    },
+                    onError: function(err) {
+                        console.error('PayPal Checkout Error:', err);
+                    }
+                }).render('#paypal-button-container');
+            </script>
+
+            <!-- JavaScript for Random Purchase Notification with Animation and Sound -->
+            <script>
+                const randomPurchases = [
+                    'John from New York just bought a Mystery Box!',
+                    'Sarah from California just purchased a $99 Special!',
+                    'Adam from Oregon grabbed a Mystery Box!',
+                    'Noah from New Jersey purchased the $99 deal!',
+                    'Alex from Texas grabbed a Mystery Box!',
+                    'Emma from Florida purchased the $99 deal!',
+                    'Wissal from California WINS the 99% DISCOUNT!',
+                    'Camille from LA WINS the 99% DISCOUNT!',
+                    'Liam from Ohio just checked out with PayPal!'
+                ];
+
+                const winnerSound = new Audio('winner-sound.mp3'); // Link to your sound file
+
+                function showRandomPurchase() {
+                    const purchaseDiv = document.getElementById('random-purchase');
+                    const randomMessage = randomPurchases[Math.floor(Math.random() * randomPurchases.length)];
+                    const winnerImg = document.getElementById('winner-img');
+                    const winnerMessage = document.getElementById('winner-message');
+
+                    winnerMessage.textContent = randomMessage;
+                    winnerImg.classList.remove('hidden');
+                    purchaseDiv.classList.remove('hidden', 'opacity-0');
+                    purchaseDiv.classList.add('winner'); // Add animation class
+
+                    // Play winner sound
+                    winnerSound.play();
+
+                    setTimeout(() => {
+                        purchaseDiv.classList.add('opacity-0');
+                        winnerImg.classList.add('hidden');
+                        purchaseDiv.classList.remove('winner');
+                    }, 5000);  // Show the notification for 5 seconds
+                }
+
+                function triggerRandomPurchase() {
+                    const randomInterval = Math.floor(Math.random() * (35000 - 15000 + 1)) + 15000; // Random interval between 15-35 seconds
+                    setTimeout(() => {
+                        showRandomPurchase();
+                        triggerRandomPurchase(); // Re-trigger the function for the next interval
+                    }, randomInterval);
+                }
+
+                // Start the random purchase notifications after the page loads
+                window.onload = triggerRandomPurchase;
+            </script>
+
+        </div>
+    </div>
 
     <script>
         const discountCodes = [
@@ -94,101 +196,11 @@
             cardElement.classList.add('revealed');
             cardElement.textContent = discount + ' OFF';
             message.textContent = 'You have revealed a ' + discount + ' discount!';
+
+            // Parse the discount percentage and apply it
+            discountAmount = 99.99 * (parseInt(discount) / 100);
         }
     </script>
-    <!-- Banner Section -->
-    <div class="bg-blue-500 p-10 text-center">
-        <h1 class="text-white text-4xl font-bold">🎁 Your $99 Mystery Box Awaits – Valued at $100,000! 🚀</h1>
-        <p class="text-white mt-2">Make a secure payment through PayPal Checkout</p>
-    </div>
-
-    <!-- PayPal Checkout Section -->
-    <div class="flex justify-center items-center h-screen">
-        <div class="bg-white p-10 rounded-lg shadow-md text-center">
-            <h2 class="text-2xl font-bold mb-5">Complete Your Payment</h2>
-
-            <!-- Winner Notification Section -->
-            <div id="random-purchase" class="hidden bg-green-200 text-green-800 p-3 mb-5 rounded flex items-center justify-center space-x-4">
-                <img id="winner-img" src="winner.png" alt="Winner" class="hidden w-16 h-16"/>
-                <span id="winner-message"></span>
-            </div>
-
-            <!-- PayPal Button -->
-            <div id="paypal-button-container"></div>
-
-            <script src="https://www.paypal.com/sdk/js?client-id=ASUF53rJxIhe4IP2iSrKkm2VHQeRhOicDREIw37Plt6NE0cIa2GGr642Rw59Ejn3LCrqPaXvhCECFArX&currency=USD"></script>
-
-            <script>
-                paypal.Buttons({
-                    createOrder: function(data, actions) {
-                        return actions.order.create({
-                            purchase_units: [{
-                                amount: {
-                                    value: '99.99' // Set the amount here
-                                }
-                            }]
-                        });
-                    },
-                    onApprove: function(data, actions) {
-                        return actions.order.capture().then(function(details) {
-                            alert('Transaction completed by ' + details.payer.name.given_name);
-                        });
-                    },
-                    onError: function(err) {
-                        console.error('PayPal Checkout Error:', err);
-                    }
-                }).render('#paypal-button-container');
-            </script>
-
-            <!-- JavaScript for Random Purchase Notification with Animation and Sound -->
-            <script>
-                const randomPurchases = [
-                    'John from New York just bought a Mystery Box!',
-                    'Sarah from California just purchased a $99 Special!',
-                    'Adam from Oregon grabbed a Mystery Box!',
-                    'Noah from New Jersey purchased the $99 deal!',
-                    'Alex from Texas grabbed a Mystery Box!',
-                    'Emma from Florida purchased the $99 deal!',
-                    'Liam from Ohio just checked out with PayPal!'
-                ];
-
-                const winnerSound = new Audio('winner-sound.mp3'); // Link to your sound file
-
-                function showRandomPurchase() {
-                    const purchaseDiv = document.getElementById('random-purchase');
-                    const randomMessage = randomPurchases[Math.floor(Math.random() * randomPurchases.length)];
-                    const winnerImg = document.getElementById('winner-img');
-                    const winnerMessage = document.getElementById('winner-message');
-
-                    winnerMessage.textContent = randomMessage;
-                    winnerImg.classList.remove('hidden');
-                    purchaseDiv.classList.remove('hidden', 'opacity-0');
-                    purchaseDiv.classList.add('winner'); // Add animation class
-
-                    // Play winner sound
-                    winnerSound.play();
-
-                    setTimeout(() => {
-                        purchaseDiv.classList.add('opacity-0');
-                        winnerImg.classList.add('hidden');
-                        purchaseDiv.classList.remove('winner');
-                    }, 5000);  // Show the notification for 5 seconds
-                }
-
-                function triggerRandomPurchase() {
-                    const randomInterval = Math.floor(Math.random() * (35000 - 15000 + 1)) + 15000; // Random interval between 60-90 seconds
-                    setTimeout(() => {
-                        showRandomPurchase();
-                        triggerRandomPurchase(); // Re-trigger the function for the next interval
-                    }, randomInterval);
-                }
-
-                // Start the random purchase notifications after the page loads
-                window.onload = triggerRandomPurchase;
-            </script>
-
-        </div>
-    </div>
 
 </body>
 </html>
