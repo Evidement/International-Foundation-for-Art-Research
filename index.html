@@ -78,11 +78,7 @@
     <div id="paypal-button-container"></div>
 </div>
 
-<!-- Step 4: Thank You Message -->
-<div id="step4" class="step-container flex flex-col justify-center items-center h-screen">
-    <h1 class="text-3xl mb-4">Step 4: Thank You!</h1>
-    <p class="text-xl">Your payment has been successfully processed. Enjoy your mystery box!</p>
-</div>
+
 
 <!-- PayPal SDK -->
 <script src="https://www.paypal.com/sdk/js?client-id=ASUF53rJxIhe4IP2iSrKkm2VHQeRhOicDREIw37Plt6NE0cIa2GGr642Rw59Ejn3LCrqPaXvhCECFArX&currency=USD"></script>
@@ -151,7 +147,7 @@
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
                     alert('Transaction completed by ' + details.payer.name.given_name);
-                    showStep('step4'); // Move to the "Thank You" Step
+                   
                 });
             },
             onError: function(err) {
