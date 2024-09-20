@@ -52,6 +52,57 @@
         .step-container.active {
             display: block;
         }
+
+        /* New Styles */
+        .transparent {
+            display: none;
+            width: 200px;
+            background-color: #ccc;
+            padding: 5px;
+            position: absolute;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        .info_body {
+            display: block;
+            background-color: #ffff99;
+            padding: 5px;
+            z-index: 9999;
+            opacity: 1;
+        }
+
+        .info_body p {
+            padding: 0px;
+            margin: 0px;
+            background-color: #ffff99;
+        }
+
+        .info_title {
+            display: block;
+            background-color: #ffff99;
+            font-size: 14px;
+            border-bottom: 1px solid black;
+            padding: 5px;
+        }
+
+        footer {
+            margin-top: 50px;
+            background-color: #f8f8f8;
+            padding: 20px;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        footer a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -74,11 +125,15 @@
 
 <!-- Step 3: PayPal Checkout -->
 <div id="step3" class="step-container flex flex-col justify-center items-center h-screen">
-    <h1 class="text-3xl mb-4">Step 2: Complete Your Payment</h1>
+    <h1 class="text-3xl mb-4">Step 3: Complete Your Payment</h1>
     <div id="paypal-button-container"></div>
 </div>
 
-
+<!-- Step 4: Thank You Message -->
+<div id="step4" class="step-container flex flex-col justify-center items-center h-screen">
+    <h1 class="text-3xl mb-4">Step 4: Thank You!</h1>
+    <p class="text-xl">Your payment has been successfully processed. Enjoy your mystery box!</p>
+</div>
 
 <!-- PayPal SDK -->
 <script src="https://www.paypal.com/sdk/js?client-id=ASUF53rJxIhe4IP2iSrKkm2VHQeRhOicDREIw37Plt6NE0cIa2GGr642Rw59Ejn3LCrqPaXvhCECFArX&currency=USD"></script>
@@ -147,7 +202,7 @@
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
                     alert('Transaction completed by ' + details.payer.name.given_name);
-                   
+                    showStep('step4'); // Move to the "Thank You" Step
                 });
             },
             onError: function(err) {
@@ -157,5 +212,17 @@
     }
 </script>
 
-</body>
-</html>
+<!-- Footer Section -->
+<footer>
+    <p>About IFAR® | <a href="#">Contact IFAR®</a> | <a href="#">Site Map</a></p>
+    <p>© 1998-2024 International Foundation for Art Research, Inc. All rights reserved.</p>
+    <p>All rights to the name International Foundation for Art Research (IFAR®) are reserved by the organization.</p>
+    <p><a href="#">Terms and Conditions</a> | <a href="#">Privacy Policy</a></p>
+    <p>International Foundation for Art Research (IFAR®)</p>
+    <p>475 Riverside Drive, Suite 1374, New York, NY 10115</p>
+    <p>Tel: (212) 391-6234 | Fax: (212) 391-8794 | E-mail: <a href="mailto:kferg@ifar.org">kferg@ifar.org</a></p>
+</footer>
+
+<!-- Tawk.to Live Chat Script -->
+<script type="text/javascript">
+    var Tawk_API=T
