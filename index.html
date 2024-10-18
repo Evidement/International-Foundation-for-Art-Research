@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎁 Your $199 Mystery Box Awaits – Valued at $10,000! 🚀</title>
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery for Animations -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -41,6 +41,14 @@
             color: #333;
             font-weight: bold;
             border: 2px solid #000;
+        }
+
+        /* Gallery styling */
+        .proof-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -101,13 +109,79 @@
         </div>
     </div>
     
-     <!-- Step 2: Coinbase Commerce Payment -->
+        <!-- Step 2: Coinbase Commerce Payment -->
     <div id="step2" class="step-container d-none flex-column justify-content-center align-items-center vh-100">
-        <h2 class="mb-4 text-center">Congratulations you Won 90% Off</h2>
         <h1 class="mb-4 text-center">Complete Your Payment</h1>
-        <!-- Use the product URL directly for the checkout button -->
-        <a href="https://commerce.coinbase.com/checkout/0f9cc50a-5750-4ea5-8e0b-6a76d36e94ad" class="btn btn-primary btn-lg">Pay with Coinbase</a>
+        <a id="paymentLink" href="#" class="btn btn-primary btn-lg">Pay with Coinbase</a>
     </div>
+
+    <!-- Corner Alert Box -->
+    <div id="cornerAlert" class="corner-alert"></div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <audio id="winnerSound" src="winner.mp3" preload="auto"></audio>
+
+    <script>
+        const productLinks = {
+            card1: "https://commerce.coinbase.com/checkout/0f9cc50a-5750-4ea5-8e0b-6a76d36e94ad",
+            card2: "https://commerce.coinbase.com/checkout/0f9cc50a-5750-4ea5-8e0b-6a76d36e94ad",
+            card3: "https://commerce.coinbase.com/checkout/0f9cc50a-5750-4ea5-8e0b-6a76d36e94ad",
+            card4: "https://commerce.coinbase.com/checkout/0f9cc50a-5750-4ea5-8e0b-6a76d36e94ad",
+            card5: "https://commerce.coinbase.com/checkout/e1aff56e-899b-40d8-8350-5429641427c3",
+            card6: "https://commerce.coinbase.com/checkout/0f9cc50a-5750-4ea5-8e0b-6a76d36e94ad",
+            card7: "https://commerce.coinbase.com/checkout/0f9cc50a-5750-4ea5-8e0b-6a76d36e94ad",
+            card8: "https://commerce.coinbase.com/checkout/008fe4a1-cbd7-40bf-9e22-71f60df94081"
+        };
+
+        const cards = $('.card-reveal');
+        let cardClicked = false;
+        const randomUserNames = ["JohnDoe123", "JaneSmith99", "CryptoKing", "MysteryQueen", "LuckyJoe", "Starlight01", "GoldenWinner", "MysteryMaster"];
+
+        function showCornerAlert(message, isWinner = false) {
+            const alertBox = $('#cornerAlert');
+            alertBox.text(message);
+            if (isWinner) {
+                alertBox.addClass('winner-alert');
+            }
+            alertBox.fadeIn().delay(3000).fadeOut(function () {
+                alertBox.removeClass('winner-alert');
+            });
+        }
+
+        function showStep(step) {
+            $('.step-container').addClass('d-none');
+            $(`#${step}`).removeClass('d-none');
+        }
+
+        cards.each(function () {
+            const cardId = $(this).parent().attr('id');
+            $(this).on('click', function () {
+                if (!cardClicked) {
+                    cardClicked = true;
+                    $(this).addClass('disabled');
+                    $(this).html(`<div class="card-body text-center">You won 90% OFF!</div>`);
+
+                    const selectedLink = productLinks[cardId];
+                    $('#paymentLink').attr('href', selectedLink);
+
+                    showStep('step2');
+                    $('#winnerSound')[0].play();  // Play winner sound
+
+                    showCornerAlert('Congratulations! You won 90% OFF! Pay only $19.90 now!', true);
+                }
+            });
+        });
+
+        function randomPurchaseAlerts() {
+            setInterval(() => {
+                const randomUser = randomUserNames[Math.floor(Math.random() * randomUserNames.length)];
+                showCornerAlert(`${randomUser} just got a chance to win the Mystery Box at only $0.99!`);
+            }, 10000); // Show alert every 10 seconds
+        }
+
+        randomPurchaseAlerts();
+    </script>
     <!-- Proofs Section -->
     <div class="container my-5">
         <h2 class="text-center mb-4">🧾 User Mistery Boxes Proofs</h2>
