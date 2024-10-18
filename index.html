@@ -10,10 +10,61 @@
     <!-- Bootstrap 5 CSS -->
     <!-- jQuery for Animations -->
     <style>
-         body {
-  background-color: var(--m-1);
-  font-family: "Jura";
+    body {
+  background: #2e2e2e;
+  color: white;
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
+
+.banner {
+  position: relative;
+  width: 600px;
+  height: 50px;
+  padding: 0px 5px;
+  background: #f0a854;
+  overflow: hidden;
+  user-select: none;
+}
+
+p {
+  font-family: "Geo-edit";
+  font-weight: 500;
+  font-style: italic;
+  position: absolute;
+  text-wrap: nowrap;
+  top: 0;
+  color: white;
+  font-style: italic;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: white;
+  pointer-events: none;
+}
+
+p:first-of-type {
+  left: -100%;
+}
+
+p:nth-of-type(2) {
+  left: 0;
+  opacity: 1;
+}
+
+span {
+  color: white;
+  -webkit-text-fill-color: white;
+}
+
+span:not(.asterisk) {
+  text-decoration: underline;
+}
+
         /* CSS for the card and animations */
         .card-reveal {
             transition: transform 0.5s;
@@ -55,116 +106,51 @@
             border-radius: 5px;
             margin-bottom: 15px;
         }
-   
-    <!-------------------------------------------------->
-<!-- Author: Ilia Kotkov                          -->
-<!-- https://twitter.com/aurum447                 -->
-<!-- https://t.me/Aurum447                        -->
-<!-- https://github.com/aurum447                  -->
-<!-- https://www.linkedin.com/in/iliakotkovmne447 -->
-<!-------------------------------------------------->
 
-<template>
-  <div id="DESIGN_title_container">
-    <span id="DESIGN_span">Mystery</span>
-  </div>
-
-  <div id="CODE_title_container">
-    <span id="CODE_span">BOX</span>
-  </div>
-</template>
-
-<script setup>
-import Vue from "https://esm.sh/vue";
-import animejs from "https://esm.sh/animejs";
-import { ref, onMounted } from "vue";
-</script>
-
-
-@import url("https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
-
-:root {
-  --m-1: rgba(38, 38, 40, 1);
-  --logo-1: rgba(216, 96, 114, 1);
-  --logo-2: rgba(255, 240, 245, 1);
-}
-
-body {
-  background-color: var(--m-1);
-  font-family: "Jura";
-}
-
-#DESIGN_title_container,
-#CODE_title_container {
-  position: absolute;
-  height: 92%;
-  top: 4%;
-  width: 10%;
-
-  overflow: hidden;
-  filter: drop-shadow(0 0 2px var(--logo-1));
-  box-sizing: border-box;
-
-  #DESIGN_span,
-  #CODE_span {
-    position: absolute;
-    font-family: "audiowide";
-    font-size: 14vh;
-    color: var(--logo-1);
-    letter-spacing: -5vh;
-    padding-bottom: 5vh;
-
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-  }
-  #DESIGN_span {
-    top: 0%;
-    left: -26%;
-
-    mask-image: linear-gradient(-90deg, white 30%, transparent 70%);
-  }
-
-  #CODE_span {
-    right: -26%;
-    bottom: 0%;
-
-    mask-image: linear-gradient(-90deg, transparent 30%, white 70%);
-  }
-}
-
-#DESIGN_title_container {
-  left: 70%;
-  border-left: 0.3vh solid var(--logo-1);
-  border-image: linear-gradient(
-      0deg,
-      transparent 1%,
-      rgba(255, 240, 245, 0.75) 4%,
-      rgba(255, 240, 245, 0.75) 96%,
-      transparent 99%
-    )
-    1;
-}
-
-#CODE_title_container {
-  right: 70%;
-  border-right: 0.3vh solid var(--logo-1);
-  border-image: linear-gradient(
-      0deg,
-      transparent 1%,
-      rgba(255, 240, 245, 0.75) 4%,
-      rgba(255, 240, 245, 0.75) 96%,
-      transparent 99%
-    )
-    1;
-}
 </style>
+     <script>
+const banner = document.getElementById("banner");
+const paragraphs = document.querySelectorAll(".banner > p");
 
+// text animation settings
+const P1_KEYFRAMES = [{ left: "-100%" }, { left: "0%" }];
+const P1_TIMING = {
+  fill: "forwards",
+  duration: 5000,
+  iterations: Infinity,
+  easing: "linear"
+};
+const P2_KEYFRAMES = [{ left: "0%" }, { left: "100%" }];
+const P2_TIMING = {
+  fill: "forwards",
+  duration: 5000,
+  iterations: Infinity,
+  easing: "linear"
+};
+
+// start animations
+const P1_ANIMATION = paragraphs[0].animate(P1_KEYFRAMES, P1_TIMING);
+const P2_ANIMATION = paragraphs[1].animate(P2_KEYFRAMES, P2_TIMING);
+
+banner.addEventListener("mouseenter", () => {
+  P1_ANIMATION.pause();
+  P2_ANIMATION.pause();
+});
+
+banner.addEventListener("mouseleave", () => {
+  P1_ANIMATION.play();
+  P2_ANIMATION.play();
+});
+</script>
 </head>
 <body class="bg-light">
    
-
+ <div class="banner" id="banner">
+  <p> THE TIME IS <span>23:24</span> <span class="asterisk">*</span> THE DATE IS <span>SUNDAY SEP 27TH 2023</span> <span class="asterisk">*</span> THIS SITE HAS <span>0 LIKES</span>
+  </p>
+  <p> THE TIME IS <span>23:24</span> <span class="asterisk">*</span> THE DATE IS <span>SUNDAY SEP 27TH 2023</span> <span class="asterisk">*</span> THIS SITE HAS <span>0 LIKES</span>
+  </p>
+</div>
 
     
     <!-- Step 1: Choose a Card -->
