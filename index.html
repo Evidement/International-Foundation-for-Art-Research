@@ -160,7 +160,7 @@
                     if (discount === '99%') {
                         showCornerAlert('Congratulations! You won 90% OFF!', true);
                     } else {
-                        showCornerAlert(`A user just claimed ${discount} OFF!`);
+                        showCornerAlert(`A user just claimed 90% OFF!`);
                     }
                 }
             });
@@ -170,7 +170,7 @@
             const randomDiscounts = ['90%'];
             setInterval(() => {
                 const randomDiscount = randomDiscounts[Math.floor(Math.random() * randomDiscounts.length)];
-                showCornerAlert(`A user just purchased with ${randomDiscount} OFF!`);
+                showCornerAlert(`A user just purchased with 90% OFF!`);
             }, 10000);
         }
 
