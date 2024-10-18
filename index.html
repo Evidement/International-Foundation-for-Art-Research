@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎁 Your $199 Mystery Box Awaits – Valued at $10,000! 🚀</title>
     <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery for Animations -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* CSS for the card and animations */
         .card-reveal {
@@ -51,8 +49,75 @@
             margin-bottom: 15px;
         }
     </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="bg-light">
+   
+
+    <!-- Button to Open the Modal -->
+    <div class="container mt-5">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#termsModal">
+            View Terms and Conditions
+        </button>
+    </div>
+
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">Terms and Conditions for the Mystery Box Giveaway</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Introduction</h6>
+                    <p>This promotion is organized by ATN Z33. By participating in this giveaway, the participant ("You") agree to be bound by these terms and conditions. This is a promotional giveaway where participants may receive a mystery box after paying a required fee.</p>
+                    
+                    <h6>2. Eligibility</h6>
+                    <p>The giveaway is open to individuals aged 18 years or older. Participants must reside in a region where participation in such promotions is legally permitted. Employees of [Your Company Name], its affiliates, and their immediate families are not eligible to participate.</p>
+                    
+                    <h6>3. Entry Fee and Payment</h6>
+                    <p>Participants are required to pay a fee for entry. This fee covers the shipping and handling of the mystery box. The mystery box will be sent to the address provided by the participant after successful payment. Payment must be completed through the designated payment platforms, such as [Payment Platform, e.g., PayPal, Coinbase Commerce]. No refunds will be issued once payment is completed, except as required by law.</p>
+                    
+                    <h6>4. Mystery Box Details</h6>
+                    <p>Each mystery box is a 250 cm³ cube containing random electronic devices. The value of the items inside each box may vary, with a maximum potential value of up to $10,000. The brands of devices that may be included in the mystery box include, but are not limited to, Apple, Samsung, and PlayStation Network (PSN). The contents of the mystery box are randomly selected and no specific devices or brands are guaranteed.</p>
+                    
+                    <h6>5. Shipping and Delivery</h6>
+                    <p>The Organizer will handle the shipping of the mystery boxes. Delivery times may vary depending on the participant’s location. Shipping delays are not the responsibility of the Organizer. Participants are responsible for providing accurate shipping information. The Organizer is not responsible for lost or undelivered packages due to incorrect information provided by participants.</p>
+                    
+                    <h6>6. Disclaimer and Limitation of Liability</h6>
+                    <p>The Organizer makes no guarantees about the specific content or value of the mystery boxes. The Organizer is not responsible for any damage or loss of items once the mystery box has been shipped. Participants accept the mystery box "as is" and acknowledge that the Organizer does not make any representations or warranties regarding the quality or condition of the items. The Organizer is not affiliated with Apple Inc., Samsung Electronics, or Sony Interactive Entertainment, and the promotion is not endorsed by these companies.</p>
+                    
+                    <h6>7. Taxes and Duties</h6>
+                    <p>Participants are responsible for any customs duties, taxes, or other fees applicable to the shipment and receipt of the mystery box in their country. The Organizer will not be responsible for any additional fees that may be incurred during customs clearance or delivery.</p>
+                    
+                    <h6>8. Privacy and Data Use</h6>
+                    <p>The Organizer will collect and use personal information provided by participants address, and contact information solely for the purpose of processing the giveaway and shipping the mystery box. By participating, you consent to the collection and use of your personal information for these purposes. The Organizer will not share or sell your personal information to third parties, except as necessary for the execution of the giveaway.</p>
+                    
+                    <h6>9. Modification and Termination</h6>
+                    <p>The Organizer reserves the right to modify or terminate the giveaway at any time without prior notice. In the event of modification or termination, any participants who have already paid the fee will be notified and will receive their mystery box as per the original terms.</p>
+                    
+                    <h6>10. Governing Law</h6>
+                    <p>These terms and conditions are governed by the laws of United States of America & UK. Any disputes arising from the giveaway or these terms and conditions will be subject to the exclusive jurisdiction of the courts in [Your Country/State/Region].</p>
+                    
+                    <h6>11. Acceptance of Terms</h6>
+                    <p>By participating in this giveaway and paying the fee, you agree to be bound by these terms and conditions. If you do not agree with any part of these terms, you should not participate in this promotion.</p>
+                    
+                    <h6>12. Contact Information</h6>
+                    <p>For any questions or concerns regarding the giveaway or these terms and conditions, please contact us at:<br>
+                        Email: contact@viradigital.shop<br>
+                        Address: 492126 York House Green Lane West Preston Lancashire PR3 1NJ 01995 606060</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
     <!-- Step 1: Choose a Card -->
     <div id="step1" class="step-container active d-flex flex-column justify-content-center align-items-center vh-100">
         <h2 class="mb-4 text-center">🎁 Your $199 Mystery Box Awaits – Valued at $10,000! 🚀</h2>
@@ -386,10 +451,9 @@
     </script>
 
     <!-- Footer Section -->
+    <!-- Footer Section -->
     <footer class="text-center py-3">
-        <p>About IFAR® | <a href="#">Contact IFAR®</a> | <a href="#">Site Map</a></p>
-        <p>© 1998-2024 International Foundation for Art Research, Inc. All rights reserved.</p>
-        <p>All rights to the name International Foundation for Art Research (IFAR®) are reserved.</p>
+        <p>© 2024 ATN Z33. All rights reserved.</p>
     </footer>
 </body>
 </html>
