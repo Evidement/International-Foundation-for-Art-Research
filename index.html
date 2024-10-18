@@ -53,46 +53,46 @@
                 <!-- Bootstrap Cards for mystery boxes -->
                 <div class="col-4 col-md-3" id="card1">
                     <div class="card card-reveal">
-                        <img src="winner.png" class="card-img-top" alt="Mystery Box">
+                        <img src="1.png" class="card-img-top" alt="Mystery Box">
                     </div>
                 </div>
                 <!-- Repeat this block for additional cards -->
                 <div class="col-4 col-md-3" id="card2">
                     <div class="card card-reveal">
-                        <img src="winner.png" class="card-img-top" alt="Mystery Box">
+                        <img src="2.png" class="card-img-top" alt="Mystery Box">
                     </div>
                 </div>
-                 <div class="col-4 col-md-3" id="card3">
+                <div class="col-4 col-md-3" id="card3">
                     <div class="card card-reveal">
-                        <img src="winner.png" class="card-img-top" alt="Mystery Box">
+                        <img src="3.png" class="card-img-top" alt="Mystery Box">
                     </div>
                 </div>
                 <!-- Repeat this block for additional cards -->
                 <div class="col-4 col-md-3" id="card4">
                     <div class="card card-reveal">
-                        <img src="winner.png" class="card-img-top" alt="Mystery Box">
+                        <img src="4.png" class="card-img-top" alt="Mystery Box">
                     </div>
                 </div>
-                 <div class="col-4 col-md-3" id="card5">
+                <div class="col-4 col-md-3" id="card5">
                     <div class="card card-reveal">
-                        <img src="winner.png" class="card-img-top" alt="Mystery Box">
+                        <img src="5.png" class="card-img-top" alt="Mystery Box">
                     </div>
                 </div>
                 <!-- Repeat this block for additional cards -->
                 <div class="col-4 col-md-3" id="card6">
                     <div class="card card-reveal">
-                        <img src="winner.png" class="card-img-top" alt="Mystery Box">
+                        <img src="6.png" class="card-img-top" alt="Mystery Box">
                     </div>
                 </div>
-                 <div class="col-4 col-md-3" id="card7">
+                <div class="col-4 col-md-3" id="card7">
                     <div class="card card-reveal">
-                        <img src="winner.png" class="card-img-top" alt="Mystery Box">
+                        <img src="7.png" class="card-img-top" alt="Mystery Box">
                     </div>
                 </div>
                 <!-- Repeat this block for additional cards -->
                 <div class="col-4 col-md-3" id="card8">
                     <div class="card card-reveal">
-                        <img src="winner.png" class="card-img-top" alt="Mystery Box">
+                        <img src="8.png" class="card-img-top" alt="Mystery Box">
                     </div>
                 </div>
                 <!-- ... up to card9 -->
@@ -103,7 +103,8 @@
     <!-- Step 2: Coinbase Commerce Payment -->
     <div id="step2" class="step-container d-none flex-column justify-content-center align-items-center vh-100">
         <h1 class="mb-4 text-center">Complete Your Payment</h1>
-        <div id="coinbase-button-container"></div>
+        <!-- Use the product URL directly for the checkout button -->
+        <a href="https://commerce.coinbase.com/checkout/ca691cc7-62c5-4852-b991-208e5830fa3e" class="btn btn-primary btn-lg">Pay with Coinbase</a>
     </div>
 
     <!-- Corner Alert Box -->
@@ -111,8 +112,6 @@
 
     <!-- Include Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Coinbase Commerce SDK -->
-    <script src="https://commerce.coinbase.com/v1/checkout.js"></script>
 
     <script>
         let discountAmount = 0;
@@ -145,13 +144,6 @@
             $(`#${step}`).removeClass('d-none');
         }
 
-        function loadCoinbaseButton() {
-            CoinbaseCommerce.checkout.render({
-                buttonId: "coinbase-button-container",
-                checkoutId: "ca691cc7-62c5-4852-b991-208e5830fa3e" // Replace with your actual Checkout ID from Coinbase Commerce
-            });
-        }
-
         cards.each(function (index) {
             $(this).on('click', function () {
                 if (!cardClicked) {
@@ -162,11 +154,9 @@
                     $(this).html(`<div class="card-body text-center">${discount} OFF</div>`);
 
                     showStep('step2');
-                    loadCoinbaseButton();
 
                     if (discount === '99%') {
                         showCornerAlert('Congratulations! You won 99% OFF!', true);
-                        $('#winnerSound')[0].play();
                     } else {
                         showCornerAlert(`A user just claimed ${discount} OFF!`);
                     }
