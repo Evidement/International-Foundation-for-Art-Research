@@ -4,46 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎁 Your $99 Mystery Box Awaits – Valued at $100,000! 🚀</title>
-    <!-- Include Tailwind CSS via CDN -->
-    <!-- Tawk.to Live Chat Integration -->
-
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery for Animations -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* CSS for the card and winner animation */
-        @keyframes winnerAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
-        .winner {
-            animation: winnerAnimation 1s ease-in-out infinite;
-        }
-
-        .card {
-            width: 150px;
-            height: 150px;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* CSS for the card and animations */
+        .card-reveal {
+            transition: transform 0.5s;
             cursor: pointer;
-            border-radius: 10px;
-            transition: background-color 0.3s;
-            overflow: hidden;
         }
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .card.revealed {
-            background-color: #f44336;
-            color: white;
-            font-size: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .card-reveal:hover {
+            transform: scale(1.05);
         }
         .card.disabled {
             pointer-events: none;
@@ -64,184 +36,127 @@
             font-size: 14px;
         }
 
-        /* Winner alert with larger size and animation */
         .winner-alert {
             background-color: #ffd700;
             color: #333;
             font-weight: bold;
             border: 2px solid #000;
         }
-
-        /* Fade-in animation for the alert */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
     </style>
 </head>
-<body class="bg-gray-100">
-
-<!-- Step 1: Choose a Card -->
-<div id="step1" class="step-container active flex flex-col justify-center items-center h-screen">
-    <h2 class="text-3xl mb-4">🎁 Your $99 Mystery Box Awaits – Valued at $100,000! 🚀</h2>
-    <div class="container grid grid-cols-3 gap-4">
-        <div class="card" id="card1"><img src="winner.png" alt="Mystery Box"></div>
-        <div class="card" id="card2"><img src="winner.png" alt="Mystery Box"></div>
-        <div class="card" id="card3"><img src="winner.png" alt="Mystery Box"></div>
-        <div class="card" id="card4"><img src="winner.png" alt="Mystery Box"></div>
-        <div class="card" id="card5"><img src="winner.png" alt="Mystery Box"></div>
-        <div class="card" id="card6"><img src="winner.png" alt="Mystery Box"></div>
-        <div class="card" id="card7"><img src="winner.png" alt="Mystery Box"></div>
-        <div class="card" id="card8"><img src="winner.png" alt="Mystery Box"></div>
-        <div class="card" id="card9"><img src="winner.png" alt="Mystery Box"></div>
+<body class="bg-light">
+    <!-- Step 1: Choose a Card -->
+    <div id="step1" class="step-container active d-flex flex-column justify-content-center align-items-center vh-100">
+        <h2 class="mb-4 text-center">🎁 Your $99 Mystery Box Awaits – Valued at $100,000! 🚀</h2>
+        <div class="container">
+            <div class="row g-3">
+                <!-- Bootstrap Cards for mystery boxes -->
+                <div class="col-4 col-md-3" id="card1">
+                    <div class="card card-reveal">
+                        <img src="mystery-box.png" class="card-img-top" alt="Mystery Box">
+                    </div>
+                </div>
+                <!-- Repeat this block for additional cards -->
+                <div class="col-4 col-md-3" id="card2">
+                    <div class="card card-reveal">
+                        <img src="mystery-box.png" class="card-img-top" alt="Mystery Box">
+                    </div>
+                </div>
+                <!-- ... up to card9 -->
+            </div>
+        </div>
     </div>
-</div>
 
-<!-- Step 3: PayPal Checkout -->
-<div id="step3" class="step-container flex flex-col justify-center items-center h-screen">
-    <h1 class="text-3xl mb-4">Complete Your Payment</h1>
-    <div id="paypal-button-container"></div>
-</div>
+    <!-- Step 2: Coinbase Commerce Payment -->
+    <div id="step2" class="step-container d-none flex-column justify-content-center align-items-center vh-100">
+        <h1 class="mb-4 text-center">Complete Your Payment</h1>
+        <div id="coinbase-button-container"></div>
+    </div>
 
-<!-- Corner Alert Box -->
-<div id="cornerAlert" class="corner-alert"></div>
+    <!-- Corner Alert Box -->
+    <div id="cornerAlert" class="corner-alert"></div>
 
-<!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=ASUF53rJxIhe4IP2iSrKkm2VHQeRhOicDREIw37Plt6NE0cIa2GGr642Rw59Ejn3LCrqPaXvhCECFArX&currency=USD"></script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Coinbase Commerce SDK -->
+    <script src="https://commerce.coinbase.com/v1/checkout.js"></script>
 
-<!-- MP3 Audio -->
-<audio id="winnerSound" src="winner-alert.mp3" preload="auto"></audio>
+    <script>
+        let discountAmount = 0;
+        const discountCodes = ['10%', '15%', '20%', '25%', '30%', '35%', '40%', '45%', '50%', '99%'];
+        const cards = $('.card-reveal');
+        const shuffledDiscounts = shuffle(discountCodes);
+        let cardClicked = false;
 
-<script>
-    let discountAmount = 0;
-    const discountCodes = ['10%', '15%', '20%', '25%', '30%', '35%', '40%', '45%', '50%', '99%'];
-    const cards = document.querySelectorAll('.card');
-    const shuffledDiscounts = shuffle(discountCodes);
-    let cardClicked = false;  // To prevent multiple card selections
-
-    // Shuffle discount codes
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
-    // Disable all cards after one selection
-    function disableAllCards() {
-        cards.forEach(card => {
-            card.classList.add('disabled');  // Add a disabled class
-        });
-    }
-
-    // Show Corner Alert
-    function showCornerAlert(message, isWinner = false) {
-        const alertBox = document.getElementById('cornerAlert');
-        alertBox.textContent = message;
-        alertBox.classList.add('fade-in');
-
-        // Special styling for the winner
-        if (isWinner) {
-            alertBox.classList.add('winner-alert');
-        }
-
-        alertBox.style.display = 'block';
-        setTimeout(() => {
-            alertBox.style.display = 'none';
-            alertBox.classList.remove('fade-in', 'winner-alert');
-        }, 5000);
-    }
-
-    // Step navigation helper function
-    function showStep(step) {
-        document.querySelectorAll('.step-container').forEach(stepDiv => {
-            stepDiv.classList.remove('active');
-        });
-        document.getElementById(step).classList.add('active');
-    }
-
-    // Load PayPal Button
-    function loadPayPalButton() {
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                const finalPrice = (99.99 - discountAmount).toFixed(2); // Apply discount to $99.99 price
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: finalPrice
-                        }
-                    }]
-                });
-            },
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                });
-            },
-            onError: function(err) {
-                console.error('PayPal Checkout Error:', err);
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
-        }).render('#paypal-button-container');
-    }
+            return array;
+        }
 
-    // Event listener for card clicks
-    cards.forEach((card, index) => {
-        card.addEventListener('click', () => {
-            if (!cardClicked) {
-                cardClicked = true;  // Mark card as clicked
-                card.classList.add('revealed');
-                const discount = shuffledDiscounts[index];
-                card.innerHTML = `${discount} OFF`; // Reveal the discount
-                discountAmount = 99.99 * (parseInt(discount) / 100); // Calculate discount
+        function showCornerAlert(message, isWinner = false) {
+            const alertBox = $('#cornerAlert');
+            alertBox.text(message);
+            if (isWinner) {
+                alertBox.addClass('winner-alert');
+            }
+            alertBox.fadeIn().delay(3000).fadeOut(function () {
+                alertBox.removeClass('winner-alert');
+            });
+        }
 
-                disableAllCards();  // Disable all other cards
-                showStep('step3');  // Automatically proceed to PayPal payment
-                loadPayPalButton(); // Load PayPal button after revealing discount
+        function showStep(step) {
+            $('.step-container').addClass('d-none');
+            $(`#${step}`).removeClass('d-none');
+        }
 
-                // Show the corner alert
-                if (discount === '99%') {
-                    showCornerAlert('Congratulations! You won 99% OFF!', true);
-                    document.getElementById('winnerSound').play();  // Play winner sound
-                } else {
-                    showCornerAlert(`A user just claimed ${discount} OFF!`);
+        function loadCoinbaseButton() {
+            CoinbaseCommerce.checkout.render({
+                buttonId: "coinbase-button-container",
+                checkoutId: "29909dbc-3001-459f-8461-d908ec918f44" // Replace with your actual Checkout ID from Coinbase Commerce
+            });
+        }
+
+        cards.each(function (index) {
+            $(this).on('click', function () {
+                if (!cardClicked) {
+                    cardClicked = true;
+                    $(this).addClass('disabled');
+                    const discount = shuffledDiscounts[index];
+                    discountAmount = 99.99 * (parseInt(discount) / 100);
+                    $(this).html(`<div class="card-body text-center">${discount} OFF</div>`);
+
+                    showStep('step2');
+                    loadCoinbaseButton();
+
+                    if (discount === '99%') {
+                        showCornerAlert('Congratulations! You won 99% OFF!', true);
+                        $('#winnerSound')[0].play();
+                    } else {
+                        showCornerAlert(`A user just claimed ${discount} OFF!`);
+                    }
                 }
-            }
+            });
         });
-    });
 
-    // Simulate random purchase alerts
-    function randomPurchaseAlerts() {
-        const randomDiscounts = ['10%', '15%', '20%', '25%', '30%', '40%'];
-        setInterval(() => {
-            const randomDiscount = randomDiscounts[Math.floor(Math.random() * randomDiscounts.length)];
-            showCornerAlert(`A user just purchased with ${randomDiscount} OFF!`);
-        }, 10000);  // Show alert every 10 seconds
-    }
+        function randomPurchaseAlerts() {
+            const randomDiscounts = ['10%', '15%', '20%', '25%', '30%', '40%'];
+            setInterval(() => {
+                const randomDiscount = randomDiscounts[Math.floor(Math.random() * randomDiscounts.length)];
+                showCornerAlert(`A user just purchased with ${randomDiscount} OFF!`);
+            }, 10000);
+        }
 
-    randomPurchaseAlerts();  // Start the random purchase alerts
-</script>
+        randomPurchaseAlerts();
+    </script>
 
-<!-- Footer Section -->
-<footer>
-    <p>About IFAR® | <a href="#">Contact IFAR®</a> | <a href="#">Site Map</a></p>
-    <p>© 1998-2024 International Foundation for Art Research, Inc. All rights reserved.</p>
-    <p>All rights to the name International Foundation for Art Research (IFAR®) are reserved.</p>
-</footer>
-<script type="text/javascript">
-var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-(function(){
-    var s1 = document.createElement("script"),s0 = document.getElementsByTagName("script")[0];
-    s1.async = true;
-    s1.src = 'https://embed.tawk.to/34ecfad5c7d001df30795b6e8bd1d79bb63713bf/1haphmndd';
-    s1.charset = 'UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1, s0);
-})();
-</script>
+    <!-- Footer Section -->
+    <footer class="text-center py-3">
+        <p>About IFAR® | <a href="#">Contact IFAR®</a> | <a href="#">Site Map</a></p>
+        <p>© 1998-2024 International Foundation for Art Research, Inc. All rights reserved.</p>
+        <p>All rights to the name International Foundation for Art Research (IFAR®) are reserved.</p>
+    </footer>
 </body>
 </html>
